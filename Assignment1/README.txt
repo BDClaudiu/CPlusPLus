@@ -1,7 +1,7 @@
 1. Group Members:
-Nicholas Bourbonniere 	SID 27199600
-Bacisor Claudiu		SID 27735332
-Krasimir Kanev 		SID 27848056
+Nicholas Bourbonniere 	SID 00699172 
+Bacisor Claudiu		      SID  23353772
+Krasimir Kanev 		      SID  65084827
 
 2. Operating System used for development:
 Windows 10 Home
