@@ -1,5 +1,5 @@
 1. Group Members:
-Nicholas Bourbonniere 	SID 00699172 
+Nicholas Bourbonniere 	SID  00699172 
 Bacisor Claudiu		      SID  23353772
 Krasimir Kanev 		      SID  65084827
 

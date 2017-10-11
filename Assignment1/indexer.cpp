@@ -20,11 +20,13 @@ const string INDEX_FILE = "index.txt";
 const string STOPWORDS_FILE = "stopwords.txt";
 //Characters that must be removed from the words;
 const string DELIMITERS = " .,!?:;()\"";
+typedef  map<string, map<string, unsigned int >> nestedMap;
 
-unsigned getTotalOccurences(const map<string, map<string, unsigned>>& dictionary, string docName)
+
+unsigned int getTotalOccurences(const nestedMap& dictionary, string docName)
 {
-	unsigned total = 0;
-	for (map<string, map<string, unsigned int>>::const_iterator it = dictionary.begin();
+	unsigned int total = 0;
+	for (nestedMap::const_iterator it = dictionary.begin();
 		it != dictionary.end();
 		++it)
 	{
@@ -34,12 +36,12 @@ unsigned getTotalOccurences(const map<string, map<string, unsigned>>& dictionary
 	return total;
 }
 
-void printDictionaryTable(const map<string, map<string, unsigned int>>& dictionary, const vector<string>& indexVector)
+void printDictionaryTable(const nestedMap& dictionary, const vector<string>& indexVector)
 {
 	//Get largest word for first column width:
 	string::size_type maxWordLength = 5; //Length of "Total"
 
-	for (map<string, map<string, unsigned int>>::const_iterator it = dictionary.begin();
+	for (nestedMap::const_iterator it = dictionary.begin();
 		it != dictionary.end();
 		++it)
 	{
@@ -49,27 +51,27 @@ void printDictionaryTable(const map<string, map<string, unsigned int>>& dictiona
 
 	//Build header:
 	string header = "+";
-	for (unsigned i = 0; i != maxWordLength + 2; ++i) //2 for extra space in word column
+	for (unsigned int i = 0; i != maxWordLength + 2; ++i) //2 for extra space in word column
 	{
 		header += "-";
 	}
 	header += "+";
 
-	for (unsigned i = 0; i != indexVector.size(); ++i)
+	for (unsigned int i = 0; i != indexVector.size(); ++i)
 	{
 		header += "--------+"; //column width = 8
 	}
 
 	//Now print the table
 	cout << header << endl << "| ";
-	for (unsigned i = 0; i != maxWordLength; ++i)
+	for (unsigned int i = 0; i != maxWordLength; ++i)
 	{
 		cout << " ";
 	}
 	cout << " |";
 
 	string docHeaderTitle;
-	for (unsigned i = 0; i != indexVector.size(); ++i)
+	for (unsigned int i = 0; i != indexVector.size(); ++i)
 	{
 		docHeaderTitle = "Doc" + to_string(i + 1);
 		cout << right << setw(8) << docHeaderTitle << "|";
@@ -77,7 +79,7 @@ void printDictionaryTable(const map<string, map<string, unsigned int>>& dictiona
 	cout << endl << header << endl;
 
 	//Now iterate through each map entry and print
-	for (map<string, map<string, unsigned int>>::const_iterator it = dictionary.begin();
+	for (nestedMap::const_iterator it = dictionary.begin();
 		it != dictionary.end();
 		++it)
 	{
@@ -109,8 +111,8 @@ void printDictionaryTable(const map<string, map<string, unsigned int>>& dictiona
 void printLegend(const vector<string>& indexVector)
 {
 	//Get longest document name for column width:
-	unsigned maxNameLength = 0;
-	for (unsigned i = 0; i != indexVector.size(); ++i)
+	unsigned int maxNameLength = 0;
+	for (unsigned int i = 0; i != indexVector.size(); ++i)
 	{
 		if (indexVector[i].length() > maxNameLength)
 			maxNameLength = indexVector[i].length();
@@ -118,14 +120,14 @@ void printLegend(const vector<string>& indexVector)
 
 	//Now print the legend top border:
 	string border = "+--------+"; //Width = 8 for Doc# entry
-	for (unsigned i = 0; i != maxNameLength + 2 ; ++i)
+	for (unsigned int i = 0; i != maxNameLength + 2; ++i)
 		border += "-";
 	border += "+";
 	cout << border << endl;
 
 	//Legend contents
 	string docTitle;
-	for (unsigned i = 0; i != indexVector.size(); ++i)
+	for (unsigned int i = 0; i != indexVector.size(); ++i)
 	{
 		docTitle = "Doc" + to_string(i + 1);
 		cout << "| " << left << setw(7) << docTitle << "| " << right << setw(maxNameLength) << indexVector[i] << " |" << endl;
@@ -133,12 +135,12 @@ void printLegend(const vector<string>& indexVector)
 	cout << border << endl;
 }
 
-void readDocument(map<string, map<string, unsigned int>>& dictionary, const string& docName)
+void readDocument(nestedMap& dictionary, const string& docName)
 {
 	ifstream ifs(docName);
 	string line;
 	vector<string> tokens; //used for storing tokens delimited by punctuation and whitespace
-	
+
 	while (getline(ifs, line))
 	{
 		size_t pos = 0;
@@ -171,7 +173,7 @@ int main()
 	vector<string> stopWordVector;
 	string line;
 	string word;
-	
+
 	while (getline(fin, line)) //Get document names to read
 		indexVector.push_back(line);
 
@@ -181,10 +183,10 @@ int main()
 	fin.close();
 	stopWordsIn.close();
 
-	map <string, map<string, unsigned int>> dictionary; //This is the map which includes all words and their occurences in each file
+	nestedMap dictionary; //This is the map which includes all words and their occurences in each file
 
 	//Read in words from each document:
-	for (unsigned i = 0; i != indexVector.size(); ++i)
+	for (unsigned int i = 0; i != indexVector.size(); ++i)
 		readDocument(dictionary, indexVector[i]);
 
 	cout << "Printing table with stopwords..." << endl;
@@ -192,8 +194,8 @@ int main()
 	cout << endl;
 
 	//Now copy the dictionary and remove the stopwords
-	map <string, map<string, unsigned int>> dictionary2 = dictionary;
-	for (unsigned i = 0; i != stopWordVector.size(); ++i)
+	nestedMap dictionary2 = dictionary;
+	for (unsigned int i = 0; i != stopWordVector.size(); ++i)
 		dictionary2.erase(stopWordVector[i]);
 
 	cout << "Printing table without stopwords..." << endl;
