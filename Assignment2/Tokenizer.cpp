@@ -1,47 +1,37 @@
-#include "Tokenizer.h"
+#include <string>
+#include <iostream>
+#include "tokenizer.h"
 
-
-
-
-Tokenizer::Tokenizer() 
-{
-
-}
-
-
+using namespace std;
 
 Tokenizer::Tokenizer(string content)
-
 	:content(content)
-{
+{ }
 
-
-}
-
-
-
-Tokenizer::Tokenizer(string content, string delimiters) 
+Tokenizer::Tokenizer(string content, string delimiters)
 	:content(content), delimiters(delimiters)
-{
-
-
-}
-
+{ }
 
 bool Tokenizer::hasNextToken()
-
 {
-	return true;
+	return true; //NOT YET IMPLEMENTED
 }
-
 
 string Tokenizer::nextToken()
-
 {
-
-	return "needs a return";
+	string token;
+	do
+	{
+		size_t end = 0;
+		end = content.find_first_of(delimiters, 0);
+		token = content.substr(0, end);
+		content = content.substr(end + 1);
+	} while (token == "");
+	return token;
 }
 
-
-//not sure about the syntax here
-//	ostream  & operator<<(ostream & os, const Tokenizer tk) { }
+ostream & operator<<(ostream & os, const Tokenizer tk)
+{
+	os << "Test";
+	return os;
+}
