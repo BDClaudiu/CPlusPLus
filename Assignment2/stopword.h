@@ -11,7 +11,6 @@ using namespace std;
 class Stopword
 {
 public:
-	Stopword(); //CAN REMOVE... we could choose to implement a default constructor with default stopwords if we like
 	Stopword(const string fileName); //Constructor that takes a filename to read stopwords from and store in the vector
 	bool operator()(string word); //Pass a word to check if it is a stopword
 	friend ostream & operator<<(ostream & os, const Stopword sw); //For debug

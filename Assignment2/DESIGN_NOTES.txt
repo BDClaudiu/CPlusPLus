@@ -1,0 +1,30 @@
+Document class:
+-Should represent a document that we have brought into our program and placed in our document index
+-We should probably store a map of words -> occurences in each document object
+-From this map we can easily calculate the tf-idf vector of weights for each document, instead of searching through a nested map by column which is a lot longer and more difficult
+-We can even store the tf-idf vector in the document object itself, I think this would be good object oriented design
+-Our main indexer.cpp class can also take an index of Document objects, place them all into the nested map structure we had before, and print the matrix that way so we don't have to change too much of our old code
+
+Tokenizer class:
+-This class object should basically do what this code used to do:
+while (getline(ifs, line))
+{
+	size_t pos = 0;
+	size_t found = 0;
+	do
+	{
+		found = line.find_first_of(DELIMITERS, pos);
+		string word = line.substr(pos, found - pos);
+		tokens.push_back(word);
+		pos = found + 1;
+	} while (found != string::npos);
+}
+-I'm not sure about the design of the class that the prof wants, but I assume it's something like the StringTokenizer class from Java
+
+Stopword class:
+-This class will simply be used to check if a word is a stopword by comparing it to the list of stopwords, which we read from a file
+-The stopword list can be kept as a vector in the object's attributes
+
+Indexer class:
+-Our indexer.cpp class file will have to change a lot
+-The indexer is now an object itself, and represents the collection of document objects we have brought in to our program

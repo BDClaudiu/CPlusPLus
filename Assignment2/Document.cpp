@@ -12,7 +12,7 @@
 #include<iomanip>
 #include <math.h> 
 
-typedef  map<string, map<string, unsigned int >> nestedMap;
+typedef map<string, map<string, unsigned int >> nestedMap;
 using namespace std;
 const string DELIMITERS = " .,!?:;()\"";
 //defult constructor that creates an empty document
