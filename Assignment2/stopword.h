@@ -4,19 +4,20 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
 class Stopword
 {
 public:
-	Stopword();
-	Stopword(string fileName);
-	bool operator()(string word);
+	Stopword(); //CAN REMOVE... we could choose to implement a default constructor with default stopwords if we like
+	Stopword(const string fileName); //Constructor that takes a filename to read stopwords from and store in the vector
+	bool operator()(string word); //Pass a word to check if it is a stopword
+	friend ostream & operator<<(ostream & os, const Stopword sw); //For debug
+
 private:
-	vector<string> swList;
-	string filename;
-	vector<string> readstopword;
+	vector<string> readstopword; //The list of stopwords read from the stopword file
 };
 
 
