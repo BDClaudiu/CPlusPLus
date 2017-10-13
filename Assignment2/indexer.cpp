@@ -11,7 +11,15 @@
 #include<map>
 #include<iterator>
 #include<iomanip>
+
+
+
+//header files
 #include <math.h> 
+#include "document.h"
+#include "stopword.h"
+#include "Tokenizer.h"
+
 
 
 
@@ -215,12 +223,28 @@ int main()
 
 	cout << n << " " << termFrequency << "  " << docFrequency << endl;
 
-	
+
 
 	double weight = (1 + log(termFrequency))*(log(n / docFrequency));
 
-	
+
 	cout << "this is my weight: " << weight << endl;
-	
+
+	Tester toc;
+	toc.testFunction();
+	Tester toc2(4, 6);
+
+
+
+	toc2.print();
+	Document doc;
+
+
+	Tester birthdate(29, 03, 1988);
+	Claudiu birth("Claudiu", birthdate);
+
+
+	birth.showBday();
+
 	return 0;
 }
