@@ -2,6 +2,7 @@
 #define DOCUMENT_H
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -9,10 +10,11 @@ class Document
 {
 public:
 	Document();
-	Document(string docName);
+	Document(const string docName);
 	string name();
 	unsigned int size();
 	string content();
+	friend ostream & operator<<(ostream & os, const Document doc); //For debug
 private:
 	string name;
 	string content;
