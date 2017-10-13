@@ -1,3 +1,4 @@
+
 #ifndef STOPWORD_H
 #define STOPWORD_H
 
@@ -13,7 +14,10 @@ public:
 	Stopword(string fileName);
 	bool operator()(string word);
 private:
-	Vector<string> swList;
+	vector<string> swList;
+	string filename;
+	vector<string> readstopword;
 };
+
 
 #endif
