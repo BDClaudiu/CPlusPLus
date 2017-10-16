@@ -1,3 +1,4 @@
+
 #ifndef STOPWORD_H
 #define STOPWORD_H
 
@@ -5,17 +6,16 @@
 #include <vector>
 #include <iostream>
 
-using namespace std;
-
 class Stopword
 {
 public:
-	Stopword();
-	Stopword(const string fileName);
-	bool operator()(string word);
-	friend ostream & operator<<(ostream & os, const Stopword sw); //For debug
+	Stopword(); //Constructor that uses an empty stopword list
+	Stopword(const std::string fileName); //Constructor that takes a filename to read stopwords from and store in the vector
+	bool operator()(const std::string word); //Pass a word to check if it is a stopword
+	friend std::ostream & operator<<(std::ostream & os, const Stopword sw); //For debug
+
 private:
-	Vector<string> swList;
+	std::vector<std::string> swList; //The list of stopwords read from the stopword file
 };
 
 #endif

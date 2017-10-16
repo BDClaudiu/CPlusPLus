@@ -11,7 +11,15 @@
 #include<map>
 #include<iterator>
 #include<iomanip>
+
+
+
+//header files
 #include <math.h> 
+#include "document.h"
+#include "stopword.h"
+#include "Tokenizer.h"
+
 
 
 
@@ -24,6 +32,11 @@ const string STOPWORDS_FILE = "stopwords.txt";
 //Characters that must be removed from the words;
 const string DELIMITERS = " .,!?:;()\"";
 typedef  map<string, map<string, unsigned int >> nestedMap;
+
+Indexer::Indexer()
+{
+
+}
 
 
 unsigned int getTotalOccurences(const nestedMap& dictionary, string docName)
@@ -171,20 +184,15 @@ void readDocument(nestedMap& dictionary, const string& docName)
 int main()
 {
 	ifstream fin(INDEX_FILE);
-	ifstream stopWordsIn(STOPWORDS_FILE);
+	Stopword sw(STOPWORDS_FILE);
 	vector<string> indexVector;
-	vector<string> stopWordVector;
 	string line;
 	string word;
 
 	while (getline(fin, line)) //Get document names to read
 		indexVector.push_back(line);
 
-	while (getline(stopWordsIn, line)) //Get stopwords
-		stopWordVector.push_back(line);
-
 	fin.close();
-	stopWordsIn.close();
 
 	nestedMap dictionary; //This is the map which includes all words and their occurences in each file
 
@@ -215,12 +223,14 @@ int main()
 
 	cout << n << " " << termFrequency << "  " << docFrequency << endl;
 
-	
+
 
 	double weight = (1 + log(termFrequency))*(log(n / docFrequency));
 
-	
+
 	cout << "this is my weight: " << weight << endl;
+
 	
+
 	return 0;
 }
