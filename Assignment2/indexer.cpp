@@ -11,7 +11,18 @@
 #include<map>
 #include<iterator>
 #include<iomanip>
+
+
+
+//header files
 #include <math.h> 
+#include "tester.h"
+#include "document.h"
+#include "stopword.h"
+#include "claudiu.h"
+#include "Tokenizer.h"
+#include "indexer.h"
+#include "Query_result.h"
 
 
 
@@ -168,7 +179,7 @@ void readDocument(nestedMap& dictionary, const string& docName)
 	ifs.close();
 }
 
-int main()
+  int main()
 {
 	ifstream fin(INDEX_FILE);
 	ifstream stopWordsIn(STOPWORDS_FILE);
@@ -188,7 +199,7 @@ int main()
 
 	nestedMap dictionary; //This is the map which includes all words and their occurences in each file
 
-	//Read in words from each document:
+						  //Read in words from each document:
 	for (unsigned int i = 0; i != indexVector.size(); ++i)
 		readDocument(dictionary, indexVector[i]);
 
@@ -215,12 +226,28 @@ int main()
 
 	cout << n << " " << termFrequency << "  " << docFrequency << endl;
 
-	
+
 
 	double weight = (1 + log(termFrequency))*(log(n / docFrequency));
 
-	
+
 	cout << "this is my weight: " << weight << endl;
-	
+
+	Tester toc;
+	toc.testFunction();
+	Tester toc2(4, 6);
+
+
+
+	toc2.print();
+	Document doc;
+
+
+	Tester birthdate(29,03,1988);
+	Claudiu birth("Claudiu", birthdate);
+
+
+	birth.showBday();
+
 	return 0;
 }
