@@ -46,10 +46,19 @@ bool operator()(string word)
 	return false;
 }
 /**
-*DEBUG
+*Prints the list of stopwords that were imported from the stopword list file
+*
+*\param os is a reference to the output stream used
+*\param sw is the \a Stopword object to be passed to the output stream
+*
+*\return the output stream that will be updated
 */
 ostream & operator<<(ostream & os, const Stopword sw)
 {
-	os << "TEST";
+	os << "DEBUG: Will print the list of stopwords imported from the file:" << endl;
+	for (vector<string>::const_iterator it = swList.begin(); it != swList.end(); ++it)
+	{
+		os << *it << endl;
+	}
 	return os;
 }
