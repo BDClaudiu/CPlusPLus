@@ -2,6 +2,8 @@
 #ifndef DOCUMENT_H
 #define DOCUMENT_H
 
+#include "document.h"
+
 #include<fstream>
 #include<iostream>
 #include<string>
@@ -32,6 +34,7 @@ public:
 	//returns the size of the vector belonging to the 2nd constructor
 	unsigned int size();
 
+
 	//returns the text of the document
 	string getContent();
 
@@ -46,12 +49,14 @@ private:
 	string word;
 	//string that contains the txt doc name;
 	string documentName;
+
 	//string that stores a txt file content
 	string content;
 	//map storing words and their occurences
 	map<string, int> dictionary;
 	//map storing the weight of each word in the document
 	map<string, double> weightMap;
+
 
 
 };

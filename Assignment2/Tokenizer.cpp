@@ -57,10 +57,19 @@ string Tokenizer::nextToken()
 	return token;
 }
 
-ostream& operator<<(ostream & os, const Tokenizer tk)
+
+
+
+/*
+  ostream& operator<<(ostream & os, const Tokenizer tk)
+	content(os)
 {
 	os << "Tokenizer object has the following content to split:" << endl 
 		<< content << endl 
 		<< "Using the following delimiters: " << delimiters << endl;
 	return os;
 }
+ 
+
+ */
+

@@ -4,18 +4,22 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
+
+using namespace std;
 
 class Stopword
 {
 public:
-	Stopword(); //Constructor that uses an empty stopword list
-	Stopword(const std::string fileName); //Constructor that takes a filename to read stopwords from and store in the vector
-	bool operator()(const std::string word); //Pass a word to check if it is a stopword
-	friend std::ostream & operator<<(std::ostream & os, const Stopword sw); //For debug
-
+	Stopword();
+	Stopword(string fileName); //Constructor that takes a filename to read stopwords from and store in the vector
+	bool operator()(string word); //Pass a word to check if it is a stopword
+//	friend std::ostream & operator<<(std::ostream & os, const Stopword sw); //For debug
 private:
-	std::vector<std::string> swList; //The list of stopwords read from the stopword file
+	vector<string> swList; //The list of stopwords read from the stopword file
+	string filename;
+	string line;
+	
 };
+
 
 #endif

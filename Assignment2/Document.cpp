@@ -20,7 +20,7 @@ using namespace std;
 Document::Document()
 	:documentName(""), content("")
 {
-	
+
 }
 
 //constructor that accepts a file name and reads the files into the document object
@@ -52,7 +52,11 @@ Document::Document(string fname)
 string Document::name()
 
 {
+
+
 	return documentName;
+
+
 }
 
 
@@ -70,17 +74,21 @@ string Document::getContent()
 	return content;
 }
 
-map<string, int>& Document::mapContent()
-{
+map<string, int> Document::mapContent()
+{	//delete the cout later, just for testing the size of the dictionaryMap
+	cout<<dictionary.size();
+
+
+
 	return dictionary;
 }
 
 /**
 *DEBUG
 */
-ostream & operator<<(ostream & os, const Document doc)
+ostream & operator<<(ostream & os, Document doc)
 {
-	os << doc.docName << endl
+	os << doc.documentName << endl
 		<< doc.size() << endl
 		<< doc.content << endl;
 	return os;

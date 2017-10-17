@@ -13,14 +13,12 @@
 #include<iomanip>
 
 
-
 //header files
 #include <math.h> 
 #include "document.h"
 #include "stopword.h"
 #include "Tokenizer.h"
-
-
+#include"indexerReal.h"
 
 
 using namespace std;
@@ -32,11 +30,6 @@ const string STOPWORDS_FILE = "stopwords.txt";
 //Characters that must be removed from the words;
 const string DELIMITERS = " .,!?:;()\"";
 typedef  map<string, map<string, unsigned int >> nestedMap;
-
-Indexer::Indexer()
-{
-
-}
 
 
 unsigned int getTotalOccurences(const nestedMap& dictionary, string docName)
@@ -184,15 +177,20 @@ void readDocument(nestedMap& dictionary, const string& docName)
 int main()
 {
 	ifstream fin(INDEX_FILE);
-	Stopword sw(STOPWORDS_FILE);
+	ifstream stopWordsIn(STOPWORDS_FILE);
 	vector<string> indexVector;
+	vector<string> stopWordVector;
 	string line;
 	string word;
 
 	while (getline(fin, line)) //Get document names to read
 		indexVector.push_back(line);
 
+	while (getline(stopWordsIn, line)) //Get stopwords
+		stopWordVector.push_back(line);
+
 	fin.close();
+	stopWordsIn.close();
 
 	nestedMap dictionary; //This is the map which includes all words and their occurences in each file
 
@@ -200,17 +198,22 @@ int main()
 	for (unsigned int i = 0; i != indexVector.size(); ++i)
 		readDocument(dictionary, indexVector[i]);
 
-	cout << "Printing table with stopwords..." << endl;
+	 /*cout << "Printing table with stopwords..." << endl;
 	printDictionaryTable(dictionary, indexVector);
 	cout << endl;
+	*/
 
 	//Now copy the dictionary and remove the stopwords
 	nestedMap dictionary2 = dictionary;
 	for (unsigned int i = 0; i != stopWordVector.size(); ++i)
 		dictionary2.erase(stopWordVector[i]);
 
+
+	/*
 	cout << "Printing table without stopwords..." << endl;
 	printDictionaryTable(dictionary2, indexVector);
+	*/
+
 
 	//Now print legend
 	cout << "Legend:" << endl;
@@ -230,7 +233,21 @@ int main()
 
 	cout << "this is my weight: " << weight << endl;
 
-	
+
+
+
+	//testing, needs to be deleted after
+	Document doc("first_document.txt");
+	cout<<	doc.name()<<endl;
+	cout<<	doc.size()<<endl;
+	cout << doc.getContent()<<endl;
+	cout << "Size of map: " ;
+	doc.mapContent();
+	cout << "" << endl;
+
+
+	indexerReal inder("index.txt");
+	cout<<inder.size();
 
 	return 0;
 }
