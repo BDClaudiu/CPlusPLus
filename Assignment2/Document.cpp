@@ -42,7 +42,7 @@ Document::Document(string fname)
 		string token = tk.nextToken();
 		for (string::iterator it = token.begin(); it != token.end(); ++it)
 			*it = tolower(*it); //Convert characters to lower case
-		dictionary[tk.nextToken()]++;
+		dictionary[token]++;
 	}
 
 	txtfile.close();
