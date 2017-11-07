@@ -1,3 +1,4 @@
+/*
 #ifndef SENTENCE_INDEXER_H
 #define SENTENCE_INDEXER_H
 
@@ -19,3 +20,4 @@ private:
 };
 
 #endif
+*/

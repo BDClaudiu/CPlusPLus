@@ -1,3 +1,4 @@
+/*
 #include "sentence_indexer.h"
 
 using namespace std;
@@ -17,3 +18,4 @@ indexer & sentence_indexer::operator>>(index_item & item)
 {
 	addToList(item);
 }
+*/

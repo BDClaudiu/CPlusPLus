@@ -12,7 +12,7 @@ document::document()
 	:index_item()
 {}
 
-document::document(std::string name)
+document::document(string name)
 	:index_item(name)
 {
 	ifstream ifs(name);
@@ -21,6 +21,7 @@ document::document(std::string name)
 	while (getline(ifs, line)) /*Get lines of text from the document*/
 		oss << line;
 	setContent(oss.str());
+	ifs.close();
 }
 
 document::~document()

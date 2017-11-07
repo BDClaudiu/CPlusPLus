@@ -18,7 +18,6 @@ protected:
 private:
 	std::string text;
 	std::string docName;
-	
 };
 
 #endif

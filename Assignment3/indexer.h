@@ -2,6 +2,7 @@
 #define INDEXER_H
 
 #include "index_item.h"
+#include "query_result.h"
 #include<vector>
 #include<map>
 #include<string>
@@ -13,9 +14,9 @@ public:
 	~indexer();
 	virtual const int size() const;
 	virtual void normalize();
-	virtual indexer& operator>>(index_item& item) = 0;
+	virtual void operator>>(index_item* item) = 0;
 	index_item* operator[](const int i) const;
-	//query() too
+	virtual std::vector<query_result> query(std::string q, int n) = 0;
 protected:
 	std::vector<index_item*> indexList;
 	std::map<std::string, std::map<std::string, std::tuple<int, double>>> wordIndex; //HELPER FUNCTIONS TO ACCESS TUPLE ELEMENTS???

@@ -8,10 +8,12 @@ class document_indexer : public indexer
 public:
 	document_indexer();
 	~document_indexer();
-	document_indexer(string indexFile);
+	document_indexer(std::string indexFile);
 	void normalize() override;
-	indexer& operator>>(index_item& item) override;
+	void operator>>(index_item* item) override;
+	std::vector<query_result> query(std::string q, int n = 10) override;
 	void printMatrix() const;
+	void filterStopWords();
 };
 
 #endif

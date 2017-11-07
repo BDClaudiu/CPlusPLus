@@ -15,17 +15,17 @@ using namespace std;
 const string INDEX_FILE = "index.txt";
 //STOPWORDS_FILE contains the stopwords.txt file with the stop words;
 const string STOPWORDS_FILE = "stopwords.txt";
-
-void printMatrix(document_indexer& idx)
-{
-
-}
-
+/*
 int main()
 {
 	document_indexer idx(INDEX_FILE);
-	
-	//HERE NOW, PRINT WITH/WITHOUT STOPWORDS
 
+	idx.printMatrix();
+
+	idx.filterStopWords();
+
+	idx.printMatrix();
+
+	while (true);
 	return 0;
-}
+} */

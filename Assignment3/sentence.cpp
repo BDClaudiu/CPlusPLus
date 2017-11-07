@@ -9,7 +9,7 @@ sentence::sentence()
 {}
 
 sentence::sentence(std::string content, std::string name)
-	: index_item(content, name)
+	: index_item(name)
 {}
 
 sentence::~sentence()
