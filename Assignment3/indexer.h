@@ -12,8 +12,8 @@ class indexer
 public:
 	indexer();
 	~indexer();
-	virtual const int size() const;
-	virtual void normalize();
+	const int size() const;
+	void normalize();
 	virtual void operator>>(index_item* item) = 0;
 	index_item* operator[](const int i) const;
 	virtual std::vector<query_result> query(std::string q, int n) = 0;

@@ -8,9 +8,11 @@ sentence::sentence()
 	:index_item()
 {}
 
-sentence::sentence(std::string content, std::string name)
+sentence::sentence(std::string content, std::string name, int position)
 	: index_item(name)
-{}
+{
+	
+}
 
 sentence::~sentence()
 {}

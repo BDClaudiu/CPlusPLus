@@ -1,8 +1,7 @@
-#ifndef WORD_TOKENIZER_H
-#define WORD_TOKENIZER_H
+#ifndef SENTENCE_TOKENIZER_H
+#define SENTENCE_TOKENIZER_H
 
 #include"abstract_tokenizer.h"
-#include<string>
 
 class sentence_tokenizer : public abstract_tokenizer
 {

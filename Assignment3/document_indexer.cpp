@@ -39,41 +39,18 @@ document_indexer::document_indexer(string indexFile)
 	}
 }
 
-void document_indexer::normalize()
-{
-	double N = static_cast<double>(size()); //Total # of documents
-	
-	for (wordIndexType::iterator it = wordIndex.begin();
-		it != wordIndex.end();
-		++it)
-	{
-		double df = static_cast<double>(it->second.size()); //Document Frequency
-
-		for (map<string, tuple<int, double>>::iterator itt = it->second.begin();
-			itt != it->second.end();
-			++itt)
-		{
-			double tf = static_cast<double>(get<0>(itt->second)); //Term Frequency
-
-			get<1>(itt->second) = (1 + log(tf))*log(N / df); //Set tf_idf weight
-		}
-	}
-
-}
-
 void document_indexer::operator>>(index_item* item)
 {
 	indexList.push_back(item);
 	
 	word_tokenizer tk(item->content());
-	Stopword sw(SW_FILE);
 	string word;
 	while (tk.hasNextToken())
 	{
 		word = tk.nextToken();
 		for (string::size_type i = 0; i != word.length(); ++i)
 			word[i] = tolower(word[i]); //Convert characters to lower case
-		++get<0>(wordIndex[tk.nextToken()][item->name()]); //Increment tf
+		++get<0>(wordIndex[word][item->name()]); //Increment tf
 	}
 
 	normalize(); //maybe don't do here, need possibility of exception thrown due to un-normalized indexer
@@ -94,7 +71,7 @@ vector<query_result> document_indexer::query(string q, int n) //NEEDS EXCEPTION 
 		word = tk.nextToken();
 		for (string::size_type i = 0; i != word.length(); ++i)
 			word[i] = tolower(word[i]); //Convert characters to lower case
-		if (!sw(word) && wordIndex.count(word) == 1) /*Ignore words not contained in the index*/
+		if (!sw(word) && wordIndex.count(word) == 1) /*Ignore stopwords and words not contained in the index*/
 			++termWeight[word]; //Temporarily use double value to store the term frequency in the query
 	}
 
@@ -103,37 +80,43 @@ vector<query_result> document_indexer::query(string q, int n) //NEEDS EXCEPTION 
 		++it)
 	{
 		df = wordIndex[it->first].size();
-		termWeight[word] = (1 + log(it->second))*log(N / df);
-		cout << word << " weight:" << termWeight[word];
+		it->second = (1 + log(it->second))*log(N / df);
 	}
-	
+
 	//COSINE_SIMILARITY
 	vector<query_result> results;
-	double num = 0;
-	double queryWeightMagnitude = 0;
-	double indexWeightMagnitude = 0;
-	double indexWeight = 0;
-	double score = 0;
+	double num, qwMagnitude, iwMagnitude, score, weight_q, weight_d, indexWeight, queryWeight;
+	string docName;
+
 	for (int i = 0; i != size(); ++i)
 	{
+		num = 0;
+		qwMagnitude = 0;
+		iwMagnitude = 0;
+		docName = (*this)[i]->name();
+
 		for (map<string, double>::const_iterator it = termWeight.begin();
 			it != termWeight.end();
 			++it)
 		{
-			indexWeight = get<1>(wordIndex[it->first][(*this)[i]->name()]); //CAN CREATE NEW ENTRIES, BUG???
-			num += it->second * indexWeight;
-			queryWeightMagnitude += pow(it->second, 2);
-			indexWeightMagnitude += pow(indexWeight, 2);
+			word = it->first;
+			weight_q = it->second;
+			qwMagnitude += pow(weight_q, 2);
+			if (wordIndex.at(word).count(docName) == 0)
+				continue;
+			weight_d = get<1>(wordIndex.at(word).at(docName));
+			iwMagnitude += pow(weight_d, 2);
+			num += weight_q * weight_d;
 		}
 
-		queryWeightMagnitude = sqrt(queryWeightMagnitude);
-		indexWeightMagnitude = sqrt(indexWeightMagnitude);
-
-		score = num / queryWeightMagnitude / indexWeightMagnitude;
+		if (qwMagnitude == 0 || iwMagnitude == 0)
+			score = 0;
+		else
+			score = num / sqrt(qwMagnitude) / sqrt(iwMagnitude);
 		results.push_back(query_result((*this)[i], score)); //MIGHT NEED "NEW"
 	}
 
-	sort(results.begin(), results.end());
+	sort(results.begin(), results.end(), operator>);
 	if(n < results.size())
 		results.resize(n);
 

@@ -13,6 +13,7 @@ const string INDEX_FILE = "index.txt";
 int main()
 {
 	document_indexer idx(INDEX_FILE);
+	/*
 	string userQuery;
 	do
 	{
@@ -28,7 +29,5 @@ int main()
 		{
 			cout << *it << endl;
 		}
-
-
 	} while (true);
-}
+}*/
