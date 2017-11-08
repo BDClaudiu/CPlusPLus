@@ -6,16 +6,20 @@
 
 using namespace std;
 
-//DO NOT TOUCH
-
+/**
+	Default Constructor
+*/
 document::document()
 	:index_item()
 {}
 
+/**
+	Default constructor that takes in a new document.txt @param name
+*/
 document::document(string name)
 	:index_item(name)
 {
-	ifstream ifs(name);
+	ifstream ifs(name); /*Open the document to read in the content*/
 	string line;
 	ostringstream oss;
 	while (getline(ifs, line)) /*Get lines of text from the document*/
@@ -24,9 +28,15 @@ document::document(string name)
 	ifs.close();
 }
 
+/**
+	Default destructor
+*/
 document::~document()
 {}
 
+/**
+	Returns the size of a document (in chars)
+*/
 const int document::size() const
 {
 	return content().length();

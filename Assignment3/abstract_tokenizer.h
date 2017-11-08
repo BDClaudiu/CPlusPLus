@@ -7,7 +7,7 @@ class abstract_tokenizer
 {
 public:
 	abstract_tokenizer(std::string content, std::string delimiters);
-	virtual ~abstract_tokenizer(); //Destructor so derived classes leave no memory leaks
+	virtual ~abstract_tokenizer();
 	const std::string getContent() const;
 	const std::string getDelimiters() const;
 	bool hasNextToken(); //Checks if there is another token to split in the structure

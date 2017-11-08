@@ -12,23 +12,25 @@
 
 using namespace std;
 
-typedef map<string, map<string, tuple<int, double>>> wordIndexType;
+typedef map<string, map<index_item*, tuple<int, double>>> wordIndexType;
 
 const string SW_FILE = "stopwords.txt";
 
+/**
+	Default Constructor
+*/
 document_indexer::document_indexer()
 {}
 
+/**
+	Destructor
+*/
 document_indexer::~document_indexer()
-{
-	for (vector<index_item*>::iterator it = indexList.begin();
-		it != indexList.end();
-		++it)
-	{
-		delete *it;
-	}
-}
+{}
 
+/**
+	Constructor that accepts a new index.txt @param indexFile
+*/
 document_indexer::document_indexer(string indexFile)
 {
 	ifstream ifs(indexFile);
@@ -39,90 +41,26 @@ document_indexer::document_indexer(string indexFile)
 	}
 }
 
-void document_indexer::operator>>(index_item* item)
+/**
+	Function that queries the indexer with a string @param q for @param n results
+*/
+vector<query_result> document_indexer::query(string q, int n) const
 {
-	indexList.push_back(item);
 	
-	word_tokenizer tk(item->content());
-	string word;
-	while (tk.hasNextToken())
-	{
-		word = tk.nextToken();
-		for (string::size_type i = 0; i != word.length(); ++i)
-			word[i] = tolower(word[i]); //Convert characters to lower case
-		++get<0>(wordIndex[word][item->name()]); //Increment tf
-	}
+	map<string, double> termWeight = getNormalizedQuery(q); //Get the normalized query vector
 
-	normalize(); //maybe don't do here, need possibility of exception thrown due to un-normalized indexer
-}
-
-vector<query_result> document_indexer::query(string q, int n) //NEEDS EXCEPTION THROWN IF NOT NORMALIZED
-{
-	double N = size();
-	double df;
-	word_tokenizer tk(q);
-	Stopword sw(SW_FILE);
-
-	map<string, double> termWeight;
-
-	string word;
-	while (tk.hasNextToken())
-	{
-		word = tk.nextToken();
-		for (string::size_type i = 0; i != word.length(); ++i)
-			word[i] = tolower(word[i]); //Convert characters to lower case
-		if (!sw(word) && wordIndex.count(word) == 1) /*Ignore stopwords and words not contained in the index*/
-			++termWeight[word]; //Temporarily use double value to store the term frequency in the query
-	}
-
-	for (map<string, double>::iterator it = termWeight.begin();
-		it != termWeight.end();
-		++it)
-	{
-		df = wordIndex[it->first].size();
-		it->second = (1 + log(it->second))*log(N / df);
-	}
-
-	//COSINE_SIMILARITY
-	vector<query_result> results;
-	double num, qwMagnitude, iwMagnitude, score, weight_q, weight_d, indexWeight, queryWeight;
-	string docName;
-
-	for (int i = 0; i != size(); ++i)
-	{
-		num = 0;
-		qwMagnitude = 0;
-		iwMagnitude = 0;
-		docName = (*this)[i]->name();
-
-		for (map<string, double>::const_iterator it = termWeight.begin();
-			it != termWeight.end();
-			++it)
-		{
-			word = it->first;
-			weight_q = it->second;
-			qwMagnitude += pow(weight_q, 2);
-			if (wordIndex.at(word).count(docName) == 0)
-				continue;
-			weight_d = get<1>(wordIndex.at(word).at(docName));
-			iwMagnitude += pow(weight_d, 2);
-			num += weight_q * weight_d;
-		}
-
-		if (qwMagnitude == 0 || iwMagnitude == 0)
-			score = 0;
-		else
-			score = num / sqrt(qwMagnitude) / sqrt(iwMagnitude);
-		results.push_back(query_result((*this)[i], score)); //MIGHT NEED "NEW"
-	}
+	vector<query_result> results = cosineSimilarity(termWeight); //Compare it to all indexed documents and get the results
 
 	sort(results.begin(), results.end(), operator>);
-	if(n < results.size())
+	if(n < results.size()) /*Sort and resize as needed*/
 		results.resize(n);
 
 	return results;
 }
 
+/**
+	Function that displays the document matrix
+*/
 void document_indexer::printMatrix() const
 {
 	//Get largest word for first column width:
@@ -165,7 +103,7 @@ void document_indexer::printMatrix() const
 	}
 	cout << endl << header << endl;
 
-	string docName;
+	index_item* doc;
 
 	//Now iterate through each map entry and print
 	for (wordIndexType::const_iterator it = wordIndex.begin();
@@ -175,14 +113,14 @@ void document_indexer::printMatrix() const
 		cout << "| " << setw(maxWordLength) << left << it->first << " |";
 		for (unsigned int i = 0; i != size(); ++i)
 		{
-			docName = (*this)[i]->name();
-			if (it->second.find(docName) == it->second.end()) //Print 0 if word has no occurences in this doc
+			doc = (*this)[i];
+			if (it->second.find(doc) == it->second.end()) //Print 0 if word has no occurences in this doc
 				cout << right << setw(8) << "0  |   0" ;
 			else
 			{
-				cout << left << setw(3) << get<0>(it->second.at(docName)); //Otherwise print # of occurences
+				cout << left << setw(3) << get<0>(it->second.at(doc)); //Otherwise print # of occurences
 				cout << "|";
-				cout << right << setw(4) << setprecision(2) << get<1>(it->second.at(docName)); //And weight
+				cout << right << setw(4) << setprecision(2) << get<1>(it->second.at(doc)); //And if-idf weight
 			}
 			
 			cout << "|";
@@ -196,21 +134,24 @@ void document_indexer::printMatrix() const
 	cout << "| " << setw(maxWordLength) << left << "Total" << " |";
 	for (unsigned int i = 0; i != size(); ++i)
 	{
-		docName = (*this)[i]->name();
+		index_item* doc = (*this)[i];
 		total = 0;
 		//Get total # words in the doc
 		for (wordIndexType::const_iterator it = wordIndex.begin();
 			it != wordIndex.end();
 			++it)
 		{
-			if (it->second.count(docName) == 1)
-				total += get<0>(it->second.at(docName));
+			if (it->second.count(doc) == 1)
+				total += get<0>(it->second.at(doc));
 		}
 		cout << setw(8) << right << total << "|"; //Assumes column width of 8
 	}
 	cout << endl << header << endl;
 }
 
+/**
+	Function that removes the stop words from the indexer
+*/
 void document_indexer::filterStopWords()
 {
 	Stopword sw(SW_FILE);
@@ -221,13 +162,13 @@ void document_indexer::filterStopWords()
 		++it)
 	{
 		if (sw(it->first))
-			swList.push_back(it->first);
+			swList.push_back(it->first); /*Get list of stopwords in the wordIndex*/
 	}
 
 	for (vector<string>::iterator it = swList.begin();
 		it != swList.end();
 		++it)
 	{
-		wordIndex.erase(*it);
+		wordIndex.erase(*it); /*Then remove them one by one*/
 	}
 }

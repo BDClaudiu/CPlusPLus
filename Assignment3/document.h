@@ -4,15 +4,13 @@
 #include"index_item.h"
 #include<string>
 
-//DO NOT TOUCH
-
 class document : public index_item
 {
 public:
 	document();
 	document(std::string name);
 	virtual ~document();
-	const int size() const override;
+	const int size() const override; //Returns size in chars
 };
 
 #endif

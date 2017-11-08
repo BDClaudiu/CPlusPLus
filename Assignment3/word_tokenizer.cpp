@@ -4,12 +4,15 @@
 
 using namespace std;
 
+/** Default constructor that has strings as params with @param content @param delimites*/
 word_tokenizer::word_tokenizer(string content, string delimiters)
 	:abstract_tokenizer(content, delimiters)
 {}
 
-word_tokenizer::~word_tokenizer() {} //MAY NOT BE NEEDED
+/** Destructor */
+word_tokenizer::~word_tokenizer() {}
 
+/**Checks the next token word*/
 string word_tokenizer::peekNextToken()
 {
 	size_t pos = 0;

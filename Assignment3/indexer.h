@@ -12,14 +12,18 @@ class indexer
 public:
 	indexer();
 	~indexer();
-	const int size() const;
-	void normalize();
-	virtual void operator>>(index_item* item) = 0;
+	const int size() const; //Number of documents indexed
+	void normalize(); //Set tf-idf weights throught the map of words (wordIndex)
+	void operator>>(index_item* item); //Read in an index item (document or sentence)
 	index_item* operator[](const int i) const;
-	virtual std::vector<query_result> query(std::string q, int n) = 0;
+	virtual std::vector<query_result> query(std::string q, int n) const = 0;
 protected:
-	std::vector<index_item*> indexList;
-	std::map<std::string, std::map<std::string, std::tuple<int, double>>> wordIndex; //HELPER FUNCTIONS TO ACCESS TUPLE ELEMENTS???
+	std::map<std::string, double> getNormalizedQuery(std::string query) const; //Used in query
+	std::vector<query_result> cosineSimilarity(std::map<std::string, double> termWeight) const; //Used in query
+
+	/*****DATA MEMBERS*****/
+	std::vector<index_item*> indexList; //List of indexed documents (or sentences)
+	std::map<std::string, std::map<index_item*, std::tuple<int, double>>> wordIndex; //Map structure that stores tf and tf-idf
 };
 
 #endif

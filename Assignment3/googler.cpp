@@ -1,3 +1,8 @@
+//COMP345 Assignment #3 (Part 2)
+//Nicholas Bourbonniere SID 27199600
+//Bacisor Claudiu		SID 27735332
+//Krasimir Kanev		SID 27848056
+
 #include<fstream>
 #include<iostream>
 #include<string>
@@ -9,11 +14,11 @@ using namespace std;
 
 //INDEX_FILE opens index.txt file that contains the names of the documents we want to process;
 const string INDEX_FILE = "index.txt";
-
+/*
 int main()
 {
 	document_indexer idx(INDEX_FILE);
-	/*
+
 	string userQuery;
 	do
 	{
