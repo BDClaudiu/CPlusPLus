@@ -6,9 +6,9 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include "index_item.h"
 
-
-class movie
+class movie : index_item
 {
 public:
 	movie();
@@ -25,6 +25,7 @@ private:
 	int releaseYear;
 	int movieID;
 	std::string lineContent;
+	const int size() const;
 };
 
 #endif

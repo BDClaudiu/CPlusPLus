@@ -5,7 +5,7 @@
 #include<iomanip>
 #include<string>
 #include <regex>
-#include <tr1/regex>
+//#include <tr1/regex>
 using namespace std;
 
 	
@@ -33,6 +33,7 @@ using namespace std;
 			regex rgx2("\\d{4}-\\d{2}-\\d{2}");
 			regex_search("2345652	/m/075f66	City of the Dead	1960-03-20	76.0", cm2, rgx2);
 			cout << cm2[0] << '\n';
+
 		while (ifs.good())
 		{
 			smatch m;
@@ -102,5 +103,8 @@ using namespace std;
 	{
 		return 0;
 	};
-
+	const int movie::size() const
+	{
+		return 0;
+	}
 	
