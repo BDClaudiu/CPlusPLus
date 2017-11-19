@@ -5,7 +5,7 @@
 #include<iomanip>
 #include<string>
 #include <regex>
-#include <tr1/regex>
+//#include <tr1/regex>
 using namespace std;
 
 	
