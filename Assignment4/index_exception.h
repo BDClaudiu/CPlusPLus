@@ -13,8 +13,10 @@ class index_exception : public std::exception
 {
 public:
 	index_exception();
+	index_exception(const char* error);
 	const char* what() const noexcept override;
 private:
+	const char* problem;
 };
 
 

@@ -7,12 +7,12 @@
 #include "index_exception.h"
 #include <typeinfo>
 //tmp return;
-index_exception::index_exception(){}
-
+index_exception::index_exception(){};
+index_exception::index_exception(const char* error): problem(error){};
 const char * index_exception::what()const noexcept
 {
 
-	return "mismatch";
+	return problem;
 }
 
 

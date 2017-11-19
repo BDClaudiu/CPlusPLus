@@ -111,7 +111,8 @@ using namespace std;
 	
 	void movie::query(std::string movie){
 		if(movie != "City of the Dead"){
-			throw index_exception();
+			const char * movi = movie.c_str();
+			throw index_exception(movi);
 		}
 
 	}
