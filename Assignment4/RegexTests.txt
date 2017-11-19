@@ -1,0 +1,16 @@
+			
+
+
+			regex tests ... i can't seem to do it dynamically but this is 2 functioning pattern matches
+			cmatch cm;
+			 //David's tests to extract date and ID ( the yyyy-mm-dd works but we need an if statement to check if its just yyy)
+			    regex rgx("[\\d]*");
+				regex_search("2345652	/m/075f66	City of the Dead	1960	76.0",cm,rgx);
+				cout << cm[0] << '\n';
+				//to be done
+				movieID = 0;
+				releaseYear = 0;
+				cmatch cm2;
+				regex rgx2("\\d{4}-\\d{2}-\\d{2}");
+				regex_search("2345652	/m/075f66	City of the Dead	1960-03-20	76.0", cm2, rgx2);
+				cout << cm2[0] << '\n';

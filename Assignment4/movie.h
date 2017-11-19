@@ -24,8 +24,9 @@ public:
 private:
 	std::string movieName;
 	std::string content;
-	int releaseYear;
 	int movieID;
+	// i believe should be changed to string to represent the yyyy-mm-dd
+	int releaseYear;
 	std::string lineContent;
 
 };
