@@ -4,16 +4,21 @@
 #include<string>
 #include<algorithm>
 #include"movie.h"
+#include "index_exception.h"
 #include<string>
 
 using namespace std;
 
 int main() {
-	
-
 	movie obj("City of the Dead");
-	
-	
 	obj.getContent();
-		
+try{
+	obj.query("City of the Dad");
+
+}
+catch(index_exception &e){
+	cerr<<"error";
+}
+
+
 			return 0; }

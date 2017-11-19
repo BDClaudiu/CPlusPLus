@@ -7,6 +7,7 @@
 #include<fstream>
 #include<string>
 #include "index_item.h"
+#include "index_exception.h"
 
 class movie : index_item
 {
@@ -18,14 +19,15 @@ public:
 	std::string getContent();
 	int getReleaseDate();
 	int getID();
-
+	void query(std::string movie) ;
+	const int size() const;
 private:
 	std::string movieName;
 	std::string content;
 	int releaseYear;
 	int movieID;
 	std::string lineContent;
-	const int size() const;
+
 };
 
 #endif

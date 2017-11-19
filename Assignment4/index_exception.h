@@ -9,10 +9,10 @@
 #define INDEX_EXCEPTION_H_
 class index_exception : public std::exception
 {
+public:
 	index_exception();
-
 	virtual const char* what() const noexcept;
-
+private:
 };
 
 
