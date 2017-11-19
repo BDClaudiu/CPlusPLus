@@ -5,13 +5,15 @@
  *      Author: David
  */
 #include <exception>
+#include <iostream>
+#include <stdexcept>
 #ifndef INDEX_EXCEPTION_H_
 #define INDEX_EXCEPTION_H_
 class index_exception : public std::exception
 {
 public:
 	index_exception();
-	virtual const char* what() const noexcept;
+	const char* what() const noexcept override;
 private:
 };
 

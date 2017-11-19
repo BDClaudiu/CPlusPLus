@@ -12,13 +12,14 @@ using namespace std;
 int main() {
 	movie obj("City of the Dead");
 	obj.getContent();
-try{
-	obj.query("City of the Dad");
+	//while we want to look for a movie
+	try{
+		obj.query("City of the Dad");
 
-}
-catch(index_exception &e){
-	cerr<<"error";
-}
+	}
+	catch(index_exception const & e){
+		cerr<<e.what();
+	}
 
 
 			return 0; }

@@ -5,12 +5,14 @@
  *      Author: David
  */
 #include "index_exception.h"
-
+#include <typeinfo>
 //tmp return;
 index_exception::index_exception(){}
-const char * index_exception::what() const noexcept
+
+const char * index_exception::what()const noexcept
 {
-	return "He";
+
+	return "mismatch";
 }
 
 
