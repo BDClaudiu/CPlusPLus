@@ -2,18 +2,12 @@
 #define MOVIE_H
 
 
-#include<regex>
 #include<iostream>
 #include<fstream>
 #include<string>
-#include "index_item.h"
-#include "index_exception.h"
-#include "document_exception.h"
-#include "movie_exception.h"
-#include "sentence_exception.h"
-#include "query_exception.h"
+#include<vector>
 
-class movie : index_item
+class movie
 {
 public:
 	movie();
@@ -21,18 +15,16 @@ public:
 
 	std::string getName();
 	std::string getContent();
-	int getReleaseDate();
+	std::string getReleaseDate();
 	int getID();
-	void query(std::string movie) ;
-	const int size() const;
+	std::vector<int> fullMovieList();
 private:
 	std::string movieName;
-	std::string content;
+	std::string contentOfMovie;
+	std::string releaseDateMovie;
 	int movieID;
-	// i believe should be changed to string to represent the yyyy-mm-dd
-	int releaseYear;
 	std::string lineContent;
-
+	std::vector<int> movieNameList;
 };
 
 #endif

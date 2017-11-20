@@ -4,125 +4,133 @@
 #include<ostream>
 #include<iomanip>
 #include<string>
-#include <regex>
-//#include <tr1/regex>
+#include<regex>
+
 using namespace std;
 
-	/**
-	 default constructor
+	/*
+	 * default constructor
 	 */
-	movie::movie():index_item(),movieID(0),releaseYear(0)
+	movie::movie()
 	{}
+
+
+
+
 	//here we take in a movie name as constructor parameter and search the database for that name
 	//if we find that name we copy the whole line in a string
 	//then we can use regex to extract what we need (id/name/release date)
-	/**
-  	  parameterized constructor takes in movie name that takes in string name
-  	  @param moviename
-	 */
 	movie::movie(string name)
-			: index_item(name),movieName(name)
-	//^^^ can change to shift over name to base class
+		:movieName(name)
 	{
+		string line;
+		string databasename = "movie.metadata.tsv";
+		ifstream ifs(databasename);
+	
+		size_t pos;
 
-			string line;
-			string databasename = "movie.metadata.tsv";
-			ifstream ifs(databasename);
-
-			size_t pos;
-			while (ifs.good())
-			{
-				smatch m;
-				cmatch cm;
-	//			regex e ("\\b(sub)([^ ]*)");
-				getline(ifs,line);
-				pos = line.find(name);
-				if (pos != string::npos)
-				{
-					lineContent += line;
-					cout << lineContent<<endl;
-					cout<<movieID<<endl;
-					regex rgx("[^\\s]*");
-					break;
-				}
-				 std::string s ("this subject has a submarine as a subsequence");
-				   }
-
+		while (ifs.good())
+		{
+			getline(ifs,line);
+			pos = line.find(name);
+			if (pos != string::npos)
+			{		
+				lineContent += line;
+				movieName = name;
+				break;
+			}
 		}
+	}
 
-	/*
-	   returns the name of the movie ** probably going to be moved to child class
-	 */
 	string movie::getName()
 	{
-
-		return movieName;
+		 return movieName;
 	}
 
-//here we search again like in the default constructor, however we search for movie id, that we parce from the line were we found the movie name
-	/*
-	 get the content is in child class as well
-	 */
+	 string movie::getReleaseDate()
+	 {
+		 
+		 //Date format YYYY-MM-DD
+		 regex pattern("\\b\\d{4}-\\d{2}-\\d{2}\\b");
+		 //Date format YYYY
+		 regex pattern2("\\b\\d{4}\\b");
+		 smatch match;
+
+		 if(regex_search(lineContent,match,pattern)|| regex_search(lineContent, match, pattern2))
+		 for (auto x : match) 
+			 {
+				 releaseDateMovie = x;
+			 }
+		 
+		 return releaseDateMovie;
+	 }
+
+
+	 //Regex ([^\s]+) looks for anything until white space...in our case will return the movie id 
+	 int movie::getID()
+	 {
+		 regex pattern("[^\\s]+");
+		 smatch match;
+
+		 if (regex_search(lineContent, match, pattern))
+			 for (auto x : match)
+			 {	//Convert string to int ....int x =stoi(stringobj)
+				 movieID = stoi(x);
+			 }
+
+		 return movieID;
+	 }
+
+	
+	//Here we search again like in the default constructor, however we search for movie id, that we parce from the line were we found the movie name
 	string movie::getContent()
-		{
-			string line;
-			string movieDescriptions = "plot_summaries.txt";
-			ifstream ifs(movieDescriptions);
+	{
+		string line;
+		string movieDescriptions = "plot_summaries.txt";
+		string movieIDD = to_string(movieID);
+		string temp = "";
+		size_t pos;
 
-			size_t pos;
 
-			while (ifs.good())
+		ifstream ifs(movieDescriptions);
+		while (ifs.good())
+		{	//converting int to string to be able to use line.find method
+			
+			getline(ifs, line);
+			pos = line.find(movieIDD);
+			if (pos != string::npos)
 			{
-
-
-				getline(ifs, line);
-
-				pos = line.find(movieID);
-				if (pos != string::npos)
-
-				{
-					cout << "Content found " << endl;
-					content += line;
-					break;
-				}
-
+				temp += line;
+				break;
 			}
-
-			cout << content;
-
-			return content;
-	}
-	//  regex for date(YYYY-MM-DD):  ^\d{4}-\d{2}-\d{2}$
-	/*
-	 returns year of the year month day of the release of movie
-	 */
-	int movie::getReleaseDate()
-	{ 
-		return releaseYear;
-	}
-
-
-	//regex ([^\s]+) looks for anything untill white space...in our case will return the movie id 
-	/**
-	  returns the ID of the movie
-	 */
-	int movie::getID()
-	{
-		return movieID;
-	};
-	/**
-	  function that returns the size representing words in plot description
-	 */
-	const int movie::size() const
-	{
-
-		return 0;
-	}
-	//to be removed to test potential use of exception
-	void movie::query(std::string movie){
-		if(movie != "City of the Dead"){
-			const char * movi = movie.c_str();
-			throw query_exception(movi);
 		}
+		//Removing the id from the content
+		contentOfMovie = temp.substr(movieIDD.size());
 
+		return contentOfMovie;
+		
+	}
+	
+	std::vector<int> movie::fullMovieList()
+	{
+		regex pattern("[^\\s]+");
+		smatch match;
+		
+		string line2;
+		string databasename = "movie.metadata.tsv";
+		ifstream ifs(databasename);
+
+
+
+		while (ifs.good())
+		{
+			getline(ifs, line2);
+			
+			if (regex_search(line2, match, pattern))
+				for (auto x : match)
+				{	//Convert string to int ....int x =stoi(stringobj)
+					movieNameList.push_back(stoi(x));
+				}
+		}
+		return movieNameList;
 	}
