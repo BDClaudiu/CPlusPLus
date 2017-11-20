@@ -6,11 +6,12 @@
 #include"movie.h"
 #include<string>
 #include "query_exception.h"
+#include "movie_exception.h"
 using namespace std;
 
 int main() {
 
-
+try{
 	movie obj("Taxi Blues");
 
 	cout << obj.getID() << endl;
@@ -23,5 +24,8 @@ int main() {
 
 	cout<<obj.fullMovieList().size()<<endl;
 	cout << obj.fullMovieList()[81739] << endl;
-
+}
+catch(movie_exception &e){
+	cout<<e;
+}
 	return 0; }

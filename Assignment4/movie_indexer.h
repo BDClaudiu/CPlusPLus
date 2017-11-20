@@ -6,6 +6,7 @@
  */
 #include "indexer.h"
 #include "movie.h"
+#include "movie_exception.h"
 class movie_indexer : public indexer
 {
 public:

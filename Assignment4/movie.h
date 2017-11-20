@@ -1,13 +1,14 @@
 #ifndef MOVIE_H
 #define MOVIE_H
-
-
+#include "index_item.h"
+#include "movie_exception.h"
 #include<iostream>
 #include<fstream>
 #include<string>
 #include<vector>
+#include"word_tokenizer.h"
 
-class movie
+class movie : public index_item
 {
 public:
 	movie();
@@ -18,6 +19,7 @@ public:
 	std::string getReleaseDate();
 	int getID();
 	std::vector<int> fullMovieList();
+	const int size() const;
 private:
 	std::string movieName;
 	std::string contentOfMovie;

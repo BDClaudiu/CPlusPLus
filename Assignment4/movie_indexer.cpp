@@ -26,17 +26,27 @@ movie_indexer::movie_indexer(std::string plot)
 
 		while (getline(ifs, line)) /*Get movies to read ID/Date/Title*/
 		{
-			/*... i can't think of a smart way to do this
+			/*
+			try{
+
+				movie mov(line);
+				&rest
+			}
+			catch(movie_expcetion &e)
+			{
+				cout<<e.what();
+			}
+			... i can't think of a smart way to do this
 			id imagine open plot summary find(ID) corresponding ID in the .tsv file for the attributes
 			 &Rest *this>> movie(line)
 			*/
-			movie mov(line);
+
 
 		}
 
 };
 
-/*undefinded
+/*undefined
  *
  */
 std::vector<query_result> movie_indexer::query(std::string q,int n) const

@@ -11,7 +11,7 @@ using namespace std;
 	/*
 	 * default constructor
 	 */
-	movie::movie()
+	movie::movie():movieID(0)
 	{}
 
 
@@ -26,7 +26,9 @@ using namespace std;
 		string line;
 		string databasename = "movie.metadata.tsv";
 		ifstream ifs(databasename);
-	
+
+
+			//throw movie_exception(name.c_str()); throw if not found
 		size_t pos;
 
 		while (ifs.good())
@@ -39,7 +41,9 @@ using namespace std;
 				movieName = name;
 				break;
 			}
+
 		}
+		getID();
 	}
 
 	string movie::getName()
@@ -133,4 +137,15 @@ using namespace std;
 				}
 		}
 		return movieNameList;
+	}
+	const int movie::size() const
+	{
+		word_tokenizer tk(contentOfMovie); /*Instantiate a word tokenizer with the movie's content*/
+		int size = 0;
+		while (tk.hasNextToken())
+		{
+			++size;
+			tk.nextToken();
+		}
+		return size;
 	}
