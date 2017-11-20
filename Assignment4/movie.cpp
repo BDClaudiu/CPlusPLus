@@ -115,13 +115,14 @@ using namespace std;
 	 */
 	const int movie::size() const
 	{
-		return size;
+
+		return 0;
 	}
 	//to be removed to test potential use of exception
 	void movie::query(std::string movie){
 		if(movie != "City of the Dead"){
 			const char * movi = movie.c_str();
-			throw index_exception(movi);
+			throw query_exception(movi);
 		}
 
 	}

@@ -5,6 +5,7 @@
 #include<algorithm>
 #include"movie.h"
 #include "index_exception.h"
+#include "query_exception.h"
 #include<string>
 
 using namespace std;
@@ -17,8 +18,8 @@ int main() {
 		obj.query("City of the Dad");
 
 	}
-	catch(index_exception const & e){
-		cerr<<e.what();
+	catch(query_exception const & e){
+		cout<<e;
 	}
 
 

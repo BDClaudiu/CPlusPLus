@@ -8,6 +8,10 @@
 #include<string>
 #include "index_item.h"
 #include "index_exception.h"
+#include "document_exception.h"
+#include "movie_exception.h"
+#include "sentence_exception.h"
+#include "query_exception.h"
 
 class movie : index_item
 {
