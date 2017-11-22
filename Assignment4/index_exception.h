@@ -22,7 +22,6 @@ public:
 	index_exception();
 	index_exception(const char* error);
 	const char* what() const noexcept override;
-	void setProblem(const char* e);
 private:
 	const char* problem;
 };

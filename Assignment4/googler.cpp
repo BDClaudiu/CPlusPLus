@@ -14,7 +14,7 @@ using namespace std;
 
 //INDEX_FILE opens index.txt file that contains the names of the documents we want to process;
 const string INDEX_FILE = "index.txt";
-
+/*
 int main()
 {
 	try
@@ -51,4 +51,4 @@ int main()
 		cout<<e;
 	}
 
-}
+}*/

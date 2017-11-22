@@ -14,7 +14,6 @@ public:
 	virtual const int size() const = 0;
 	const std::string content() const; //Return content (sentence of whole document) of index item
 	const std::string name() const; //Return name of document (or containing document for sentence)
-protected:
 	void setContent(std::string text); //Setter for derived classes
 private:
 	std::string text;

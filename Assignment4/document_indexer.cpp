@@ -54,7 +54,7 @@ vector<query_result> document_indexer::query(string q, int n) const
 
 	vector<query_result> results = cosineSimilarity(termWeight); //Compare it to all indexed documents and get the results
 
-//	sort(results.begin(), results.end(), operator>);
+	sort(results.begin(), results.end(), operator>);
 	if(n < results.size()) /*Sort and resize as needed*/
 		results.resize(n);
 	if(results[0].getScore() == 0)
