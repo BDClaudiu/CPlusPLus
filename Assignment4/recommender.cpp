@@ -11,7 +11,7 @@
 using namespace std;
 
 //Metadata file
-const string METADATA_FILE = "meta.tsv";
+const string METADATA_FILE = "movie.metadata.tsv";
 //Plot summary file
 const string SUMMARY_FILE = "plot_summaries.txt";
 
