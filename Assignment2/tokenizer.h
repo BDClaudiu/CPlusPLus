@@ -4,6 +4,8 @@
 #include <string>
 #include <iostream>
 
+using namespace std;
+
 class Tokenizer
 {
 public:
@@ -11,10 +13,10 @@ public:
 	bool hasNextToken(); //Checks if there is another token to split in the string
 	std::string peekNextToken(); //returns the next token without removing it from the content
 	std::string nextToken(); //returns the next token and removes it from the content of the Document
-	friend std::ostream& operator<<(std::ostream & os, const Tokenizer tk); //For debug
+	// friend std::ostream& operator<<(std::ostream & os, const Tokenizer tk); //For debug
 private:
-	std::string content; //the content of the file being worked on
-	std::string delimiters; //delimiters (default or chosen with constructor)
+	string content; //the content of the file being worked on
+	string delimiters; //delimiters (default or chosen with constructor)
 };
 
 #endif

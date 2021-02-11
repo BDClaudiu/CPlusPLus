@@ -1,47 +1,62 @@
 #include "indexerReal.h"
 #include "document.h"
+#include"indexerReal.h"
+
+
+
+#include<map>
+#include<vector>
 
 using namespace std;
 
-
-
 //defult constructor that creates an empty document
-indexerReal::indexerReal(string indexFile)
+indexerReal::indexerReal()
+	:indexList()
 {
-	ifstream ifs(indexFile);
+	indexList;
+}
+
+indexerReal::indexerReal(string indexFile)
+
+{
 	string line;
+	ifstream ifs(indexFile);
+	
+	Document doc(indexFile);
 	while (getline(ifs, line))
 	{
-		indexVector.push_back(Document doc(line));
-		
+		indexList.push_back(doc);
 	}
 	ifs.close();
 }
 
-
 //function that returns the number of documents in the index
 int indexerReal::size(){
-	return indexVector.size();
+
+
+	return indexList.size();
 }
 
 
 //function that computes the weights
-void indexerReal::normalize()
-{
-	
+int indexerReal::normalize(){
+	//need algorithm here
+	return 0;
 }
 
-void operator>>(Indexer idx, Document doc)
-{
-	idx->indexVector.push_back(doc);
+map<string, int> indexerReal::query() {
+	return queryresult;
 }
 
-
+void operator>>(indexerReal  idx, Document doc)
+{
+	idx.indexList.push_back(doc);
+}
 
 /**
 *DEBUG
 */
-ostream & operator<<(ostream & os, const indexerReal idx)
+ostream & operator<<(ostream & os, const indexerReal sw)
 {
 	os << "TEST";
 	return os;
